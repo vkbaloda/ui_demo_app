@@ -1,67 +1,23 @@
-import 'dart:math' show pi;
 import 'package:flutter/material.dart';
 
 // not sure what was the design exactly, so made a fantasy nav bar
-class ReflectlyOldBottomNavBarPage extends StatefulWidget {
-  const ReflectlyOldBottomNavBarPage({Key? key}) : super(key: key);
-
-  @override
-  _ReflectlyOldBottomNavBarPageState createState() =>
-      _ReflectlyOldBottomNavBarPageState();
-}
-
-class _ReflectlyOldBottomNavBarPageState
-    extends State<ReflectlyOldBottomNavBarPage> {
-  final tabIcons = [
-    Icons.home,
-    Icons.mail,
-    Icons.stacked_line_chart,
-    Icons.person,
-  ];
-  int currentTabIndex = 0;
-
-  void _onTabClick(int tabIndex) {
-    if (currentTabIndex != tabIndex) {
-      setState(() {
-        currentTabIndex = tabIndex;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.purple,
-        title: Text("Reflectly old-bottomNavBar"),
-      ),
-      body: Center(
-        child: Text(
-          "This is tab: ${currentTabIndex + 1}",
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
-      bottomNavigationBar: ReflectlyOldBottomNavBar(
-        onTap: _onTabClick,
-        tabs: tabIcons,
-        barColor: Colors.purple,
-      ),
-    );
-  }
-}
-
 class ReflectlyOldBottomNavBar extends StatefulWidget {
   final ValueChanged<int>? onTap;
   final List<IconData> tabs;
   final int initialTab;
-  final Color? barColor;
-  const ReflectlyOldBottomNavBar(
-      {Key? key,
-      this.onTap,
-      required this.tabs,
-      this.initialTab = 0,
-      this.barColor})
-      : super(key: key);
+  final Color? backgroundColor;
+  final Color unselectedItemColor;
+  final Color selectedItemColor;
+
+  const ReflectlyOldBottomNavBar({
+    Key? key,
+    this.onTap,
+    required this.tabs,
+    this.initialTab = 0,
+    this.backgroundColor,
+    this.unselectedItemColor = Colors.white60,
+    this.selectedItemColor = Colors.white,
+  }) : super(key: key);
 
   @override
   _ReflectlyOldBottomNavBarState createState() =>
@@ -69,7 +25,6 @@ class ReflectlyOldBottomNavBar extends StatefulWidget {
 }
 
 class _ReflectlyOldBottomNavBarState extends State<ReflectlyOldBottomNavBar> {
-  static const bottomNavBarHeight = 56.0;
   late double offsetX;
   late int selectedTabIndex;
 
@@ -98,7 +53,7 @@ class _ReflectlyOldBottomNavBarState extends State<ReflectlyOldBottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: bottomNavBarHeight,
+      height: kBottomNavigationBarHeight,
       child: TweenAnimationBuilder<double>(
         tween: Tween<double>(begin: offsetX, end: offsetX),
         duration: Duration(milliseconds: 200),
@@ -109,7 +64,7 @@ class _ReflectlyOldBottomNavBarState extends State<ReflectlyOldBottomNavBar> {
             painter: _NavBarBackgroundPainter(
               offsetXFraction: value,
               navBarBackgroundColor:
-                  widget.barColor ?? Theme.of(context).accentColor,
+                  widget.backgroundColor ?? Theme.of(context).accentColor,
             ),
             child: child,
           );
@@ -124,8 +79,9 @@ class _ReflectlyOldBottomNavBarState extends State<ReflectlyOldBottomNavBar> {
                 onTap: () => _onTap(index),
                 child: Icon(
                   widget.tabs[index],
-                  color:
-                      selectedTabIndex == index ? Colors.white : Colors.white60,
+                  color: selectedTabIndex == index
+                      ? widget.selectedItemColor
+                      : widget.unselectedItemColor,
                 ),
               ),
             ),
@@ -137,7 +93,8 @@ class _ReflectlyOldBottomNavBarState extends State<ReflectlyOldBottomNavBar> {
 }
 
 class _NavBarBackgroundPainter extends CustomPainter {
-  static const radius = 7.0;
+  static const craterRadius = 7.0;
+  static const craterBorderRadius = 3.0;
   final double offsetXFraction;
   final Color navBarBackgroundColor;
 
@@ -149,26 +106,25 @@ class _NavBarBackgroundPainter extends CustomPainter {
     final navBarPaint = Paint()..color = navBarBackgroundColor;
 
     final offsetX = offsetXFraction * size.width;
-    final smallRadius = 3.0;
-    final barTop = radius - 1;
+    final barTop = craterRadius - 1;
 
     final navBarPath = Path()
       ..moveTo(0, barTop)
-      ..lineTo(offsetX - radius - 2 * smallRadius, barTop)
+      ..lineTo(offsetX - craterRadius - 2 * craterBorderRadius, barTop)
       ..cubicTo(
-        offsetX - radius + smallRadius / 2,
+        offsetX - craterRadius + craterBorderRadius / 2,
         barTop,
-        offsetX - radius + smallRadius / 2,
-        barTop + 1 + radius,
+        offsetX - craterRadius + craterBorderRadius / 2,
+        2 * craterRadius,
         offsetX,
-        barTop + 1 + radius,
+        2 * craterRadius,
       )
       ..cubicTo(
-        offsetX + radius - smallRadius / 2,
-        barTop + 1 + radius,
-        offsetX + radius - smallRadius / 2,
+        offsetX + craterRadius - craterBorderRadius / 2,
+        2 * craterRadius,
+        offsetX + craterRadius - craterBorderRadius / 2,
         barTop,
-        offsetX + radius + 2 * smallRadius,
+        offsetX + craterRadius + 2 * craterBorderRadius,
         barTop,
       )
       ..lineTo(size.width, barTop)
@@ -179,8 +135,8 @@ class _NavBarBackgroundPainter extends CustomPainter {
     canvas.drawPath(navBarPath, navBarPaint);
 
     canvas.drawCircle(
-      Offset(offsetX, radius),
-      radius - 3,
+      Offset(offsetX, craterRadius),
+      craterRadius - 3,
       navBarPaint,
     );
   }

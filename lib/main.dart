@@ -1,8 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:ui_demo_app/pages/reflectly_fab.dart';
-import 'package:ui_demo_app/pages/reflectly_old_bottom_nav_bar.dart';
+import 'package:ui_demo_app/bank_card_details_page/card_details_page.dart';
+import 'package:ui_demo_app/reflectly_fab/reflectly_fab_page.dart';
+import 'package:ui_demo_app/reflectly_bottom_nav_bar/reflectly_bottom_nav_bar_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,6 +25,7 @@ class MyHomePage extends StatelessWidget {
   final components = <String, Widget>{
     "Reflectly Old BottomNavBar": ReflectlyOldBottomNavBarPage(),
     "Reflectly FAB": ReflectlyFabPage(),
+    "Cards Details Page": CardsDetailsPage(),
   };
 
   @override
