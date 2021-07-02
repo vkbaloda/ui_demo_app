@@ -2,15 +2,16 @@
 
 Flutter project to practice complex UI build
 
-## Getting Started
+Animated ball BottomNavigationBar:
+<img src="https://github.com/ui_demo_app/reflectlyBottomNavBar.gif" width="250" />
 
-This project is a starting point for a Flutter application.
+Reflectly floatingActionButton:
+<img src="https://media.giphy.com/media/A8EclpmhPJjE66DqJi/giphy.gif" width="250" />
 
-A few resources to get you started if this is your first Flutter project:
+(Incomplete) Bank cards details page:
+Inspiration - [Cool UI design by Arpit Agrawal](https://www.linkedin.com/posts/arpitagrwl_design-uxdesign-ui-ugcPost-6703914606227681280-dv2I?lipi=urn%3Ali%3Apage%3Ad_flagship3_messaging%3B4zo%2FfpU3TSi4i%2F6nSFF6Zg%3D%3D)
+<img src="https://media.giphy.com/media/5XH2bjlXsCmlOUsgn3/giphy.gif" width="250" />
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
+For help getting started with Flutter, view the
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
